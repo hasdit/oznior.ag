@@ -4,6 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { Heart, ShoppingBag, Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { useUIStore } from "@/lib/store";
+import { trackEvent } from "@/lib/analytics";
 
 export interface VariantOption {
   volumeMl: number;
@@ -25,6 +27,7 @@ export interface ProductCardProps {
 }
 
 export default function ProductCard({
+  id,
   name,
   slug,
   fragranceFamily,
@@ -35,7 +38,9 @@ export default function ProductCard({
   reviewCount = 124,
 }: ProductCardProps) {
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
-  const [isWishlisted, setIsWishlisted] = useState(false);
+  const { wishlist, toggleWishlist, addToCart } = useUIStore();
+
+  const isWishlisted = wishlist.includes(slug);
 
   const activeVariant = variants[selectedVariantIndex] || {
     volumeMl: 50,
@@ -44,26 +49,42 @@ export default function ProductCard({
     sku: "OZN-DEFAULT",
   };
 
+  const handleAddToCart = () => {
+    addToCart({
+      id,
+      name,
+      slug,
+      volumeMl: activeVariant.volumeMl,
+      price: activeVariant.price,
+      imageUrl,
+    });
+    trackEvent("add_to_bag", { name, slug, volume: activeVariant.volumeMl, price: activeVariant.price });
+  };
+
   return (
-    <div className="group relative bg-[#FFFFFF] border border-[#E4DDD2] rounded-xl overflow-hidden flex flex-col justify-between hover:border-[#8A6A44]/80 transition-all duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.03)]">
-      {/* Top Media & Badges */}
-      <div className="relative aspect-[3/4] w-full bg-[#F8F5EF] overflow-hidden p-6 flex items-center justify-center">
-        <Badge variant="gold" className="absolute top-3 left-3 z-10 bg-[#8A6A44] text-[#F8F5EF]">
-          Extrait de Parfum
+    <div className="group relative bg-[#FFFFFF] border border-[#E4DDD2] rounded-xl overflow-hidden flex flex-col justify-between hover:border-[#B08D57]/80 transition-all duration-300 shadow-card">
+      {/* Top Media & Badges - Compact Controlled Height */}
+      <div className="relative h-44 sm:h-52 w-full bg-[#F7F3EE] overflow-hidden p-3 flex items-center justify-center">
+        <Badge variant="gold" className="absolute top-2.5 left-2.5 z-10 bg-[#B08D57] text-[#FFFFFF] text-[10px] px-2 py-0.5 font-bold uppercase tracking-wider">
+          Extrait
         </Badge>
         <button
-          onClick={() => setIsWishlisted(!isWishlisted)}
-          className="absolute top-3 right-3 z-10 p-2 rounded-full bg-[#FFFFFF]/90 backdrop-blur-md border border-[#E4DDD2] text-[#111111] hover:text-[#8A6A44] transition-all shadow-sm"
+          onClick={() => {
+            toggleWishlist(slug);
+            trackEvent("wishlist_add", { slug });
+          }}
+          className="absolute top-2.5 right-2.5 z-10 p-1.5 rounded-full bg-[#FFFFFF]/90 backdrop-blur-md border border-[#E7DED2] text-[#1A1A1A] hover:text-[#B08D57] transition-all shadow-xs"
+          aria-label="Save to Wishlist"
         >
-          <Heart className={`w-4 h-4 ${isWishlisted ? "fill-[#8A6A44] text-[#8A6A44]" : ""}`} />
+          <Heart className={`w-3.5 h-3.5 ${isWishlisted ? "fill-[#B08D57] text-[#B08D57]" : ""}`} />
         </button>
 
         {/* Product Bottle Image */}
-        <div className="w-full h-full flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
+        <div className="w-full h-full flex items-center justify-center p-2 group-hover:scale-105 transition-transform duration-500">
           <img
             src={imageUrl || "https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=600&q=80"}
             alt={name}
-            className="max-h-full max-w-full object-contain filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.08)]"
+            className="max-h-full max-w-full object-contain filter drop-shadow-md"
             onError={(e) => {
               (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=600&q=80";
             }}
@@ -71,38 +92,38 @@ export default function ProductCard({
         </div>
       </div>
 
-      {/* Product Information Body */}
-      <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
-        <div className="space-y-2">
-          <div className="text-[11px] uppercase tracking-[0.2em] text-[#8A6A44] font-semibold">
-            {fragranceFamily} • {topNotes.slice(0, 2).join(", ")}
+      {/* Product Information Body - Compact & Clear */}
+      <div className="p-4 space-y-3 flex-1 flex flex-col justify-between text-left">
+        <div className="space-y-1.5">
+          <div className="text-[10px] uppercase tracking-wider text-[#B08D57] font-bold">
+            {fragranceFamily}
           </div>
           <Link href={`/parfums/${slug}`}>
-            <h3 className="font-serif text-2xl font-bold text-[#111111] group-hover:text-[#8A6A44] transition-colors leading-snug">
+            <h3 className="font-serif text-lg md:text-xl font-bold text-[#1A1A1A] group-hover:text-[#B08D57] transition-colors leading-snug line-clamp-1">
               {name}
             </h3>
           </Link>
-          <div className="flex items-center space-x-1.5 text-xs text-[#4B4B4B]">
-            <div className="flex text-[#8A6A44]">
+          <div className="flex items-center space-x-1 text-[11px] text-[#555555]">
+            <div className="flex text-[#B08D57]">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-3.5 h-3.5 fill-[#8A6A44]" />
+                <Star key={i} className="w-3 h-3 fill-[#B08D57]" />
               ))}
             </div>
-            <span className="text-xs font-medium">({reviewCount})</span>
+            <span className="font-medium text-[#1A1A1A]">({reviewCount})</span>
           </div>
         </div>
 
-        {/* Size Variant Selector Pills */}
-        <div className="space-y-4 pt-3 border-t border-[#E4DDD2]">
-          <div className="flex items-center space-x-2">
+        {/* Size Variant Selector Pills & Pricing */}
+        <div className="space-y-3 pt-2 border-t border-[#E7DED2]">
+          <div className="flex items-center space-x-1.5">
             {variants.map((v, idx) => (
               <button
                 key={v.sku}
                 onClick={() => setSelectedVariantIndex(idx)}
-                className={`px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider rounded transition-all ${
+                className={`px-2 py-1 text-[10px] font-bold uppercase tracking-wider rounded transition-all ${
                   selectedVariantIndex === idx
-                    ? "bg-[#111111] text-[#F8F5EF] font-bold shadow-sm"
-                    : "bg-[#F8F5EF] border border-[#E4DDD2] text-[#4B4B4B] hover:border-[#8A6A44]"
+                    ? "bg-[#1A1A1A] text-[#F7F3EE]"
+                    : "bg-[#F7F3EE] border border-[#E7DED2] text-[#555555] hover:border-[#B08D57]"
                 }`}
               >
                 {v.volumeMl}ml
@@ -110,20 +131,24 @@ export default function ProductCard({
             ))}
           </div>
 
-          {/* Pricing & Quick Add Button */}
-          <div className="flex items-center justify-between pt-1">
-            <div className="flex items-baseline space-x-2">
-              <span className="font-serif text-2xl font-bold text-[#111111]">
+          {/* Pricing & 1-Tap Quick Add Button */}
+          <div className="flex items-center justify-between pt-0.5">
+            <div className="flex items-baseline space-x-1.5">
+              <span className="font-serif text-lg md:text-xl font-bold text-[#1A1A1A]">
                 ৳ {activeVariant.price.toLocaleString()}
               </span>
               {activeVariant.compareAtPrice && (
-                <span className="text-xs text-[#4B4B4B]/60 line-through">
+                <span className="text-[11px] text-[#555555]/60 line-through">
                   ৳ {activeVariant.compareAtPrice.toLocaleString()}
                 </span>
               )}
             </div>
-            <button className="p-3 bg-[#111111] text-[#F8F5EF] rounded hover:bg-[#8A6A44] transition-all shadow-md flex items-center justify-center">
-              <ShoppingBag className="w-4 h-4" />
+            <button
+              onClick={handleAddToCart}
+              className="p-2.5 bg-[#1A1A1A] text-[#F7F3EE] rounded hover:bg-[#B08D57] transition-all shadow-xs flex items-center justify-center"
+              aria-label="Add to Bag"
+            >
+              <ShoppingBag className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
