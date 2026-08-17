@@ -45,7 +45,7 @@ export default function CartDrawer() {
               <span className="text-[#1A1A1A] flex items-center gap-1.5">
                 <Truck className="w-4 h-4 text-[#B08D57]" /> Express Delivery Threshold
               </span>
-              <span className="text-[#B08D57]">
+              <span className="text-[#B08D57] font-bold">
                 {remainingForFreeShipping === 0
                   ? "✓ FREE SHIPPING UNLOCKED"
                   : `Add ৳ ${remainingForFreeShipping.toLocaleString()} for Free Delivery`}
@@ -53,7 +53,7 @@ export default function CartDrawer() {
             </div>
             <div className="w-full h-2 bg-[#E7DED2] rounded-full overflow-hidden">
               <div
-                className="h-full bg-[#B08D57] transition-all duration-500"
+                className="h-full bg-[#B08D57] transition-all duration-500 rounded-full"
                 style={{ width: `${progressPercent}%` }}
               />
             </div>
@@ -67,7 +67,7 @@ export default function CartDrawer() {
               <Link
                 href="/parfums"
                 onClick={closeCart}
-                className="inline-block px-6 py-3 bg-[#1A1A1A] text-[#F7F3EE] text-xs font-bold uppercase tracking-widest rounded hover:bg-[#B08D57] transition-colors"
+                className="inline-block px-6 py-3 bg-[#1A1A1A] text-[#F7F3EE] text-xs font-bold uppercase tracking-widest rounded-xl hover:bg-[#B08D57] transition-colors shadow-sm"
               >
                 Explore Extrait Collection
               </Link>
@@ -94,7 +94,7 @@ export default function CartDrawer() {
 
                     {/* Quantity controls */}
                     <div className="flex items-center space-x-3 pt-2">
-                      <div className="flex items-center border border-[#E7DED2] bg-[#FFFFFF] rounded">
+                      <div className="flex items-center border border-[#E7DED2] bg-[#FFFFFF] rounded-lg">
                         <button
                           onClick={() => updateQuantity(item.id, item.volumeMl, -1)}
                           className="px-2.5 py-0.5 text-xs text-[#1A1A1A] font-bold hover:bg-[#F7F3EE]"
@@ -125,9 +125,9 @@ export default function CartDrawer() {
           )}
         </div>
 
-        {/* Footer Subtotal & Checkout Action */}
+        {/* Footer Subtotal & Checkout Action (with Mobile Bottom Safe Padding) */}
         {cart.length > 0 && (
-          <div className="pt-6 border-t border-[#E7DED2] space-y-4">
+          <div className="pt-6 border-t border-[#E7DED2] space-y-4 pb-20 md:pb-0">
             <div className="space-y-2 text-xs text-[#555555]">
               <div className="flex justify-between items-center text-sm font-semibold text-[#1A1A1A]">
                 <span>Bag Subtotal</span>
@@ -147,7 +147,7 @@ export default function CartDrawer() {
                 closeCart();
                 trackEvent("checkout_start", { subtotal, itemCount: totalCartCount });
               }}
-              className="w-full flex items-center justify-center space-x-2 py-4 bg-[#1A1A1A] text-[#F7F3EE] font-bold text-xs uppercase tracking-[0.22em] rounded hover:bg-[#B08D57] transition-all shadow-md"
+              className="w-full flex items-center justify-center space-x-2 py-4 bg-[#1A1A1A] text-[#F7F3EE] font-bold text-xs uppercase tracking-[0.22em] rounded-xl hover:bg-[#B08D57] transition-all shadow-md"
             >
               <span>PROCEED TO CHECKOUT</span>
               <ArrowRight className="w-4 h-4" />
