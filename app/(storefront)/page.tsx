@@ -1,53 +1,39 @@
-import HeroSlider from "@/components/storefront/home/HeroSlider";
-import TrustStrip from "@/components/storefront/home/TrustStrip";
+import BrandShowroomIntro from "@/components/storefront/home/BrandShowroomIntro";
 import QuickShopCategories from "@/components/storefront/home/QuickShopCategories";
-import BestSellersGrid from "@/components/storefront/home/BestSellersGrid";
-import ShopByScentFamily from "@/components/storefront/home/ShopByScentFamily";
-import NewArrivalsSection from "@/components/storefront/home/NewArrivalsSection";
 import DiscoveryCoffret from "@/components/storefront/home/DiscoveryCoffret";
-import OccasionGiftingSection from "@/components/storefront/home/OccasionGiftingSection";
-import FeaturedCollectionStory from "@/components/storefront/home/FeaturedCollectionStory";
+import BestSellersGrid from "@/components/storefront/home/BestSellersGrid";
+import OlfactoryWorldSection from "@/components/storefront/home/OlfactoryWorldSection";
+import CraftsmanshipSection from "@/components/storefront/home/CraftsmanshipSection";
 import SocialProofReviews from "@/components/storefront/home/SocialProofReviews";
-import InstagramGallery from "@/components/storefront/home/InstagramGallery";
+import TrustStrip from "@/components/storefront/home/TrustStrip";
 import NewsletterSignup from "@/components/storefront/home/NewsletterSignup";
 
 export default function Homepage() {
   return (
     <div className="bg-[#F7F3EE] text-[#1A1A1A] min-h-screen selection:bg-[#B08D57] selection:text-[#F7F3EE]">
-      {/* 03. Hero Slider */}
-      <HeroSlider />
+      {/* 01. Premium Brand Introduction (No Hero Slider) */}
+      <BrandShowroomIntro />
 
-      {/* 04. Trust Strip */}
-      <TrustStrip />
-
-      {/* 05. Quick Shop Categories */}
+      {/* 02. Collection Explorer */}
       <QuickShopCategories />
 
-      {/* 06. Best Sellers */}
-      <BestSellersGrid />
-
-      {/* 07. Shop by Scent Family */}
-      <ShopByScentFamily />
-
-      {/* 08. New Arrivals */}
-      <NewArrivalsSection />
-
-      {/* 09. Discovery Sets */}
+      {/* 03. Discovery Coffret Section (Primary Acquisition Gateway) */}
       <DiscoveryCoffret />
 
-      {/* 10. Occasion & Gifting */}
-      <OccasionGiftingSection />
+      {/* 04. Best Sellers Grid */}
+      <BestSellersGrid />
 
-      {/* 11. Featured Collection Story */}
-      <FeaturedCollectionStory />
+      {/* 05. Fragrance Notes Experience (3-Tier Olfactory Pyramid) */}
+      <OlfactoryWorldSection />
 
-      {/* 12. Reviews */}
+      {/* 06. Brand Story & Craftsmanship Editorial */}
+      <CraftsmanshipSection />
+
+      {/* 07. Reviews & BD Trust Signals */}
       <SocialProofReviews />
+      <TrustStrip />
 
-      {/* 13. Instagram / UGC Gallery */}
-      <InstagramGallery />
-
-      {/* 14. Newsletter Signup */}
+      {/* VIP Privilege Newsletter */}
       <NewsletterSignup />
     </div>
   );
