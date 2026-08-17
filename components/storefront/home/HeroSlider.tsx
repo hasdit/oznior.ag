@@ -2,224 +2,225 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ArrowRight, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronLeft, ChevronRight, Play, Pause, ArrowRight } from "lucide-react";
 import { trackEvent } from "@/lib/analytics";
 
 interface SlideData {
   id: number;
-  numberStr: string;
-  collectionLabel: string;
-  fragranceName: string;
-  italicWord: string;
-  description: string;
-  price: string;
-  volume: string;
-  concentration: string;
+  tag: string;
+  headline: string;
+  subtext: string;
   primaryCta: { label: string; href: string };
   secondaryCta: { label: string; href: string };
-  bottleImageUrl: string;
+  imageUrl: string;
 }
 
 const HERO_SLIDES: SlideData[] = [
   {
     id: 1,
-    numberStr: "01",
-    collectionLabel: "SIGNATURE COLLECTION",
-    fragranceName: "Royale Oud",
-    italicWord: "Concentré",
-    description:
-      "Formulated with 25-year aged wild Cambodian agarwood and damask rose. Aged 90 days in copper vats for 18-hour projection.",
-    price: "৳ 8,500",
-    volume: "50ml",
-    concentration: "Extrait de Parfum (30%)",
-    primaryCta: { label: "Discover Fragrance", href: "/parfums/royale-oud-concentre" },
-    secondaryCta: { label: "View Notes", href: "/parfums?family=oud" },
-    bottleImageUrl:
-      "https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=800&q=80",
+    tag: "NEW ARRIVALS",
+    headline: "Meet the latest olfactory stories.",
+    subtext: "Fresh expressions and rare materials, selected for a new beginning.",
+    primaryCta: { label: "Shop new arrivals", href: "/parfums?sort=new" },
+    secondaryCta: { label: "View all fragrances", href: "/parfums" },
+    imageUrl: "https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=2000&q=85",
   },
   {
     id: 2,
-    numberStr: "02",
-    collectionLabel: "LUMINOUS RESIN SERIES",
-    fragranceName: "Aeterna Amber",
-    italicWord: "Gold",
-    description:
-      "Golden Baltic amber fused with Guatemalan cardamom and Madagascar vanilla pods for a magnetic, sensual warmth.",
-    price: "৳ 7,800",
-    volume: "50ml",
-    concentration: "Extrait de Parfum (30%)",
-    primaryCta: { label: "Discover Fragrance", href: "/parfums/aeterna-amber-gold" },
-    secondaryCta: { label: "View Notes", href: "/parfums?family=amber" },
-    bottleImageUrl:
-      "https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&w=800&q=80",
+    tag: "DISCOVERY SETS",
+    headline: "Begin with a smaller ritual.",
+    subtext: "Explore a considered selection before choosing the fragrance that becomes yours.",
+    primaryCta: { label: "Shop discovery sets", href: "/parfums?format=discovery" },
+    secondaryCta: { label: "Find your fragrance", href: "/quiz" },
+    imageUrl: "https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&w=2000&q=85",
   },
   {
     id: 3,
-    numberStr: "03",
-    collectionLabel: "PRIVATE OAK BARREL",
-    fragranceName: "Noir Tobacco",
-    italicWord: "Intense",
-    description:
-      "Raw Virginia tobacco leaf, dark cedarwood bark, and black pepper crystals macerated for 180 oak cask days.",
-    price: "৳ 9,200",
-    volume: "50ml",
-    concentration: "Extrait de Parfum (30%)",
-    primaryCta: { label: "Discover Fragrance", href: "/parfums/noir-wood-intense" },
-    secondaryCta: { label: "View Notes", href: "/parfums?family=woody" },
-    bottleImageUrl:
-      "https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=800&q=80",
+    tag: "ROYALE OUD CONCENTRÉ",
+    headline: "The art of quiet presence.",
+    subtext: "Cambodian agarwood distilled in copper vats, formulated at 30% Extrait density.",
+    primaryCta: { label: "Explore Royale Oud", href: "/parfums/royale-oud-concentre" },
+    secondaryCta: { label: "Learn about extraction", href: "/journal" },
+    imageUrl: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=2000&q=85",
   },
   {
     id: 4,
-    numberStr: "04",
-    collectionLabel: "HERITAGE BOTANICAL EDITION",
-    fragranceName: "White Saffron",
-    italicWord: "Royal",
-    description:
-      "Kashmiri white saffron paired with Italian bergamot and Tuscan leather accords for an unforgettable velvet trail.",
-    price: "৳ 8,000",
-    volume: "50ml",
-    concentration: "Extrait de Parfum (30%)",
-    primaryCta: { label: "Discover Fragrance", href: "/parfums" },
-    secondaryCta: { label: "View Notes", href: "/parfums?family=floral" },
-    bottleImageUrl:
-      "https://images.unsplash.com/photo-1616949755610-8c9bbc08f138?auto=format&fit=crop&w=800&q=80",
-  },
-  {
-    id: 5,
-    numberStr: "05",
-    collectionLabel: "VELVET CASHMERE SERIES",
-    fragranceName: "Imperial Musk",
-    italicWord: "Supreme",
-    description:
-      "Sublime white musk, Iris butter, and Mysore sandalwood harvested for unmatched 24-hour skin persistence.",
-    price: "৳ 7,500",
-    volume: "50ml",
-    concentration: "Extrait de Parfum (30%)",
-    primaryCta: { label: "Discover Fragrance", href: "/parfums" },
-    secondaryCta: { label: "View Notes", href: "/parfums?family=fresh" },
-    bottleImageUrl:
-      "https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=800&q=80",
+    tag: "AMBER ELIXIR GOLD",
+    headline: "Warmth captured in glass.",
+    subtext: "Luminous Baltic amber paired with Guatemalan cardamom and vanilla crystal accords.",
+    primaryCta: { label: "Shop Amber Gold", href: "/parfums/aeterna-amber-gold" },
+    secondaryCta: { label: "Explore amber notes", href: "/parfums?family=amber" },
+    imageUrl: "https://images.unsplash.com/photo-1616949755610-8c9bbc08f138?auto=format&fit=crop&w=2000&q=85",
   },
 ];
 
 export default function HeroSlider() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
 
-  // 4s Auto slide
+  // 6s Auto-advance with Play/Pause toggle
   useEffect(() => {
-    if (isPaused) return;
+    if (!isPlaying) return;
     const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % HERO_SLIDES.length);
-    }, 4000);
+      setCurrentSlideIndex((prev) => (prev + 1) % HERO_SLIDES.length);
+    }, 6000);
     return () => clearInterval(timer);
-  }, [isPaused]);
+  }, [isPlaying]);
 
-  const slide = HERO_SLIDES[currentIndex];
+  const slide = HERO_SLIDES[currentSlideIndex];
+
+  const handlePrev = () => {
+    setCurrentSlideIndex((prev) => (prev === 0 ? HERO_SLIDES.length - 1 : prev - 1));
+    trackEvent("hero_cta_click", { action: "prev_slide" });
+  };
+
+  const handleNext = () => {
+    setCurrentSlideIndex((prev) => (prev + 1) % HERO_SLIDES.length);
+    trackEvent("hero_cta_click", { action: "next_slide" });
+  };
 
   return (
-    <section
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-      className="relative w-full bg-[#F8F5EF] border-b border-[#E7DED2] text-[#111111] overflow-hidden lg:h-[780px] flex items-center justify-center font-sans"
-      aria-label="OZNIOR Luxury E-Commerce Hero"
-    >
-      <div className="max-w-[1440px] w-full mx-auto px-6 md:px-12 py-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center text-left">
+    <section className="relative w-full h-[88vh] min-h-[650px] lg:min-h-[750px] bg-[#111111] text-[#FFFFFF] overflow-hidden select-none font-sans">
+      {/* Full-Bleed Background Image Canvas */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={slide.id}
+          initial={{ opacity: 0, scale: 1.04 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          className="absolute inset-0 z-0"
+        >
+          <img
+            src={slide.imageUrl}
+            alt={slide.headline}
+            className="w-full h-full object-cover object-center filter brightness-90 contrast-105"
+          />
+          {/* Subtle Scrim Gradient Overlay for Crisp Text Contrast */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#111111]/85 via-[#111111]/40 to-transparent max-md:bg-gradient-to-t max-md:from-[#111111]/90 max-md:via-[#111111]/50 max-md:to-transparent" />
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Main Viewport Content Overlay */}
+      <div className="relative z-10 max-w-[1440px] w-full h-full mx-auto px-6 md:px-16 flex flex-col justify-between py-12 md:py-20 text-left">
         
-        {/* LEFT CONTENT ZONE */}
-        <div className="lg:col-span-6 space-y-6 z-10 flex flex-col justify-center">
-          
-          {/* Collection Label */}
-          <div className="flex items-center space-x-2">
-            <Sparkles className="w-3.5 h-3.5 text-[#9C7A4D]" />
-            <span className="text-[11px] uppercase tracking-[0.25em] font-semibold text-[#9C7A4D]">
-              {slide.collectionLabel}
-            </span>
-          </div>
+        {/* Top Spacer / Tag */}
+        <div className="pt-2">
+          <motion.span
+            key={`tag-${slide.id}`}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-[11px] md:text-[12px] uppercase tracking-[0.25em] font-semibold text-[#B08D57] block"
+          >
+            {slide.tag}
+          </motion.span>
+        </div>
 
-          {/* Fragrance Name */}
-          <h1 className="font-serif text-3xl sm:text-5xl font-bold tracking-tight text-[#111111] leading-tight">
-            {slide.fragranceName} <span className="italic font-normal text-[#9C7A4D]">{slide.italicWord}</span>
-          </h1>
+        {/* Center/Left Content Zone */}
+        <div className="max-w-2xl space-y-6 my-auto">
+          {/* Headline Typography (Playfair Display / Serif) */}
+          <AnimatePresence mode="wait">
+            <motion.h1
+              key={`headline-${slide.id}`}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="font-serif text-4xl sm:text-6xl lg:text-7xl font-semibold tracking-tight text-[#F7F3EE] leading-[1.08]"
+            >
+              {slide.headline}
+            </motion.h1>
+          </AnimatePresence>
 
-          {/* Description */}
-          <p className="text-sm md:text-base text-[#555555] font-light leading-relaxed max-w-lg">
-            {slide.description}
-          </p>
+          {/* Subtext Body */}
+          <motion.p
+            key={`subtext-${slide.id}`}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className="text-base sm:text-lg text-[#F7F3EE]/85 font-light leading-[1.7] max-w-xl"
+          >
+            {slide.subtext}
+          </motion.p>
 
-          {/* Action Buttons: [Discover] [Notes] */}
-          <div className="flex items-center gap-4 pt-2 flex-wrap">
+          {/* CTA Action Buttons Group */}
+          <motion.div
+            key={`cta-${slide.id}`}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.25 }}
+            className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-4"
+          >
+            {/* Primary Button (Cream Solid Container + Dark Text + Arrow) */}
             <Link
               href={slide.primaryCta.href}
-              onClick={() => trackEvent("hero_cta_click", { cta: slide.primaryCta.label, edition: slide.fragranceName })}
-              className="px-7 py-3.5 bg-[#111111] text-[#F8F5EF] font-bold text-xs tracking-[0.2em] uppercase rounded hover:bg-[#9C7A4D] transition-all shadow-xs flex items-center space-x-2"
+              onClick={() => trackEvent("hero_cta_click", { label: slide.primaryCta.label })}
+              className="px-7 py-3.5 bg-[#F7F3EE] text-[#111111] font-semibold text-xs tracking-wider rounded-xs hover:bg-[#B08D57] hover:text-[#FFFFFF] transition-all duration-300 shadow-sm flex items-center justify-center space-x-2 text-center"
             >
               <span>{slide.primaryCta.label}</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4 ml-1" />
             </Link>
 
+            {/* Secondary Link (Clean Underline) */}
             <Link
               href={slide.secondaryCta.href}
-              className="px-7 py-3.5 border border-[#111111]/30 text-[#111111] font-bold text-xs tracking-[0.2em] uppercase rounded hover:border-[#9C7A4D] hover:text-[#9C7A4D] transition-all"
+              className="px-2 py-3.5 text-xs text-[#F7F3EE] hover:text-[#B08D57] font-medium tracking-wide underline underline-offset-8 decoration-1 decoration-[#F7F3EE]/40 hover:decoration-[#B08D57] transition-all text-center sm:text-left"
             >
               {slide.secondaryCta.label}
             </Link>
-          </div>
-
-          {/* Price + Size */}
-          <div className="flex items-center space-x-4 text-sm pt-2">
-            <span className="font-serif text-xl font-bold text-[#111111]">{slide.price} BDT</span>
-            <span className="text-[#E7DED2]">|</span>
-            <span className="text-[#555555] font-medium">{slide.volume} ({slide.concentration})</span>
-          </div>
-
-          {/* Slider Progress Bar */}
-          <div className="pt-4 border-t border-[#E7DED2] flex items-center space-x-6">
-            <div className="flex items-center space-x-2">
-              <button
-                onClick={() => setCurrentIndex((prev) => (prev === 0 ? HERO_SLIDES.length - 1 : prev - 1))}
-                className="p-2 rounded-full border border-[#E7DED2] text-[#111111] hover:border-[#9C7A4D] hover:text-[#9C7A4D] transition-colors"
-                aria-label="Previous Slide"
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => setCurrentIndex((prev) => (prev + 1) % HERO_SLIDES.length)}
-                className="p-2 rounded-full border border-[#E7DED2] text-[#111111] hover:border-[#9C7A4D] hover:text-[#9C7A4D] transition-colors"
-                aria-label="Next Slide"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
-
-            <div className="flex items-center space-x-2 text-xs font-serif font-bold text-[#111111]">
-              <span>{slide.numberStr}</span>
-              <div className="w-16 h-1 bg-[#E7DED2] rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-[#9C7A4D] transition-all duration-500"
-                  style={{ width: `${((currentIndex + 1) / HERO_SLIDES.length) * 100}%` }}
-                />
-              </div>
-              <span className="text-[#555555]">05</span>
-            </div>
-          </div>
+          </motion.div>
         </div>
 
-        {/* RIGHT PRODUCT IMAGE (Full Bottle, Fully Visible, Zero Extreme Zoom) */}
-        <div className="lg:col-span-6 relative flex items-center justify-center">
-          <div className="relative aspect-[4/3] w-full max-w-lg bg-[#FFFFFF] border border-[#E7DED2] rounded-2xl overflow-hidden p-6 flex flex-col items-center justify-center shadow-xs group">
-            <img
-              src={slide.bottleImageUrl}
-              alt={slide.fragranceName}
-              className="max-h-[300px] lg:max-h-[360px] w-auto object-contain filter drop-shadow-md group-hover:scale-102 transition-transform duration-300"
-            />
-            
-            <div className="absolute bottom-4 left-4 right-4 bg-[#F8F5EF]/95 border border-[#E7DED2] p-3 rounded-xl flex justify-between items-center text-xs">
-              <span className="font-serif font-bold text-[#111111]">{slide.fragranceName} {slide.italicWord}</span>
-              <span className="font-serif font-bold text-[#9C7A4D]">{slide.price} BDT</span>
-            </div>
+        {/* Bottom Control Bar (Exact Reference Match: [<] [— — — —] [▶] [>]) */}
+        <div className="flex items-center space-x-3 pt-6">
+          {/* Left Arrow Button */}
+          <button
+            onClick={handlePrev}
+            className="w-9 h-9 border border-[#FFFFFF]/40 hover:border-[#FFFFFF] flex items-center justify-center text-[#FFFFFF] transition-colors rounded-xs"
+            aria-label="Previous Slide"
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+
+          {/* Horizontal Slide Indicators */}
+          <div className="flex items-center space-x-2 px-2">
+            {HERO_SLIDES.map((s, idx) => (
+              <button
+                key={s.id}
+                onClick={() => setCurrentSlideIndex(idx)}
+                className="py-2 focus:outline-none"
+                aria-label={`Go to slide ${s.id}`}
+              >
+                <div
+                  className={`h-[2px] transition-all duration-500 ${
+                    idx === currentSlideIndex
+                      ? "w-10 bg-[#FFFFFF]"
+                      : "w-6 bg-[#FFFFFF]/30 hover:bg-[#FFFFFF]/60"
+                  }`}
+                />
+              </button>
+            ))}
           </div>
+
+          {/* Play / Pause Toggle Button */}
+          <button
+            onClick={() => setIsPlaying(!isPlaying)}
+            className="w-9 h-9 border border-[#FFFFFF]/40 hover:border-[#FFFFFF] flex items-center justify-center text-[#FFFFFF] transition-colors rounded-xs"
+            aria-label={isPlaying ? "Pause autoplay" : "Play autoplay"}
+          >
+            {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 ml-0.5" />}
+          </button>
+
+          {/* Right Arrow Button */}
+          <button
+            onClick={handleNext}
+            className="w-9 h-9 border border-[#FFFFFF]/40 hover:border-[#FFFFFF] flex items-center justify-center text-[#FFFFFF] transition-colors rounded-xs"
+            aria-label="Next Slide"
+          >
+            <ChevronRight className="w-4 h-4" />
+          </button>
         </div>
 
       </div>

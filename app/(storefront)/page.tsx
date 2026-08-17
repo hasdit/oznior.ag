@@ -1,4 +1,4 @@
-import BrandShowroomIntro from "@/components/storefront/home/BrandShowroomIntro";
+import HeroSlider from "@/components/storefront/home/HeroSlider";
 import QuickShopCategories from "@/components/storefront/home/QuickShopCategories";
 import DiscoveryCoffret from "@/components/storefront/home/DiscoveryCoffret";
 import BestSellersGrid from "@/components/storefront/home/BestSellersGrid";
@@ -11,27 +11,29 @@ import NewsletterSignup from "@/components/storefront/home/NewsletterSignup";
 export default function Homepage() {
   return (
     <div className="bg-[#F7F3EE] text-[#1A1A1A] min-h-screen selection:bg-[#B08D57] selection:text-[#F7F3EE]">
-      {/* 01. Premium Brand Introduction (No Hero Slider) */}
-      <BrandShowroomIntro />
+      {/* 01. Hero Slider (AESOP / LE LABO / BYREDO Reference Style) */}
+      <HeroSlider />
 
-      {/* 02. Collection Explorer */}
+      {/* 02. Trust Strip */}
+      <TrustStrip />
+
+      {/* 03. Quick Shop Categories */}
       <QuickShopCategories />
 
-      {/* 03. Discovery Coffret Section (Primary Acquisition Gateway) */}
+      {/* 04. Discovery Coffret Section */}
       <DiscoveryCoffret />
 
-      {/* 04. Best Sellers Grid */}
+      {/* 05. Best Sellers Grid */}
       <BestSellersGrid />
 
-      {/* 05. Fragrance Notes Experience (3-Tier Olfactory Pyramid) */}
+      {/* 06. Fragrance Notes Experience */}
       <OlfactoryWorldSection />
 
-      {/* 06. Brand Story & Craftsmanship Editorial */}
+      {/* 07. Brand Story & Craftsmanship Editorial */}
       <CraftsmanshipSection />
 
-      {/* 07. Reviews & BD Trust Signals */}
+      {/* 08. Reviews & BD Trust Signals */}
       <SocialProofReviews />
-      <TrustStrip />
 
       {/* VIP Privilege Newsletter */}
       <NewsletterSignup />
