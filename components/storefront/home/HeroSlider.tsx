@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 import { trackEvent } from "@/lib/analytics";
 
@@ -12,7 +11,7 @@ interface SlideData {
   collectionLabel: string;
   fragranceName: string;
   italicWord: string;
-  story: string;
+  description: string;
   price: string;
   volume: string;
   concentration: string;
@@ -28,8 +27,8 @@ const HERO_SLIDES: SlideData[] = [
     collectionLabel: "SIGNATURE COLLECTION",
     fragranceName: "Royale Oud",
     italicWord: "Concentré",
-    story:
-      "Formulated with 25-year aged wild Cambodian agarwood and damask rose. Macerated 90 days for 18-hour projection.",
+    description:
+      "Formulated with 25-year aged wild Cambodian agarwood and damask rose. Aged 90 days in copper vats for 18-hour projection.",
     price: "৳ 8,500",
     volume: "50ml",
     concentration: "Extrait de Parfum (30%)",
@@ -44,8 +43,8 @@ const HERO_SLIDES: SlideData[] = [
     collectionLabel: "LUMINOUS RESIN SERIES",
     fragranceName: "Aeterna Amber",
     italicWord: "Gold",
-    story:
-      "Golden Baltic amber fused with Guatemalan cardamom and Madagascar vanilla pods for magnetic warmth.",
+    description:
+      "Golden Baltic amber fused with Guatemalan cardamom and Madagascar vanilla pods for a magnetic, sensual warmth.",
     price: "৳ 7,800",
     volume: "50ml",
     concentration: "Extrait de Parfum (30%)",
@@ -60,7 +59,7 @@ const HERO_SLIDES: SlideData[] = [
     collectionLabel: "PRIVATE OAK BARREL",
     fragranceName: "Noir Tobacco",
     italicWord: "Intense",
-    story:
+    description:
       "Raw Virginia tobacco leaf, dark cedarwood bark, and black pepper crystals macerated for 180 oak cask days.",
     price: "৳ 9,200",
     volume: "50ml",
@@ -76,7 +75,7 @@ const HERO_SLIDES: SlideData[] = [
     collectionLabel: "HERITAGE BOTANICAL EDITION",
     fragranceName: "White Saffron",
     italicWord: "Royal",
-    story:
+    description:
       "Kashmiri white saffron paired with Italian bergamot and Tuscan leather accords for an unforgettable velvet trail.",
     price: "৳ 8,000",
     volume: "50ml",
@@ -92,7 +91,7 @@ const HERO_SLIDES: SlideData[] = [
     collectionLabel: "VELVET CASHMERE SERIES",
     fragranceName: "Imperial Musk",
     italicWord: "Supreme",
-    story:
+    description:
       "Sublime white musk, Iris butter, and Mysore sandalwood harvested for unmatched 24-hour skin persistence.",
     price: "৳ 7,500",
     volume: "50ml",
@@ -123,113 +122,72 @@ export default function HeroSlider() {
     <section
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
-      className="relative w-full bg-[#F8F5EF] border-b border-[#E7DED2] text-[#111111] overflow-hidden py-8 lg:py-10 max-h-[750px] flex items-center justify-center font-sans"
-      aria-label="OZNIOR Luxury Fragrance E-Commerce Hero"
+      className="relative w-full bg-[#F8F5EF] border-b border-[#E7DED2] text-[#111111] overflow-hidden lg:h-[780px] flex items-center justify-center font-sans"
+      aria-label="OZNIOR Luxury E-Commerce Hero"
     >
-      <div className="max-w-[1440px] w-full mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center text-left">
+      <div className="max-w-[1440px] w-full mx-auto px-6 md:px-12 py-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center text-left">
         
-        {/* DESKTOP LEFT (Top Left -> Below -> Below) / MOBILE ORDER (Label -> Name -> Story -> Price -> CTA -> Bottle) */}
-        <div className="lg:col-span-6 space-y-4 z-10 flex flex-col justify-center">
+        {/* LEFT CONTENT ZONE */}
+        <div className="lg:col-span-6 space-y-6 z-10 flex flex-col justify-center">
           
-          {/* 1. Collection Label */}
-          <motion.div
-            key={`label-${slide.id}`}
-            initial={{ opacity: 0, y: 5 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            className="flex items-center space-x-2"
-          >
+          {/* Collection Label */}
+          <div className="flex items-center space-x-2">
             <Sparkles className="w-3.5 h-3.5 text-[#9C7A4D]" />
             <span className="text-[11px] uppercase tracking-[0.25em] font-semibold text-[#9C7A4D]">
               {slide.collectionLabel}
             </span>
-          </motion.div>
-
-          {/* 2. Fragrance Name */}
-          <AnimatePresence mode="wait">
-            <motion.h1
-              key={`title-${slide.id}`}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -5 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-              className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#111111] leading-tight"
-            >
-              {slide.fragranceName} <span className="italic font-normal text-[#9C7A4D]">{slide.italicWord}</span>
-            </motion.h1>
-          </AnimatePresence>
-
-          {/* 3. 2-Line Story */}
-          <motion.p
-            key={`story-${slide.id}`}
-            initial={{ opacity: 0, y: 5 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.05 }}
-            className="text-xs sm:text-sm text-[#555555] font-light leading-relaxed max-w-lg"
-          >
-            {slide.story}
-          </motion.p>
-
-          {/* MOBILE ORDER ONLY: Price comes before CTAs on mobile */}
-          <div className="block lg:hidden pt-1">
-            <span className="font-serif text-lg font-bold text-[#111111]">{slide.price} BDT</span>
-            <span className="text-xs text-[#555555] ml-2">({slide.volume} • {slide.concentration})</span>
           </div>
 
-          {/* 4. Primary CTA & Secondary CTA */}
-          <motion.div
-            key={`cta-${slide.id}`}
-            initial={{ opacity: 0, y: 5 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.1 }}
-            className="flex items-center gap-3 pt-1 flex-wrap"
-          >
+          {/* Fragrance Name */}
+          <h1 className="font-serif text-3xl sm:text-5xl font-bold tracking-tight text-[#111111] leading-tight">
+            {slide.fragranceName} <span className="italic font-normal text-[#9C7A4D]">{slide.italicWord}</span>
+          </h1>
+
+          {/* Description */}
+          <p className="text-sm md:text-base text-[#555555] font-light leading-relaxed max-w-lg">
+            {slide.description}
+          </p>
+
+          {/* Action Buttons: [Discover] [Notes] */}
+          <div className="flex items-center gap-4 pt-2 flex-wrap">
             <Link
               href={slide.primaryCta.href}
               onClick={() => trackEvent("hero_cta_click", { cta: slide.primaryCta.label, edition: slide.fragranceName })}
-              className="px-6 py-3 bg-[#111111] text-[#F8F5EF] font-bold text-xs tracking-[0.2em] uppercase rounded hover:bg-[#9C7A4D] transition-all shadow-xs flex items-center space-x-2"
+              className="px-7 py-3.5 bg-[#111111] text-[#F8F5EF] font-bold text-xs tracking-[0.2em] uppercase rounded hover:bg-[#9C7A4D] transition-all shadow-xs flex items-center space-x-2"
             >
               <span>{slide.primaryCta.label}</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              <ArrowRight className="w-4 h-4" />
             </Link>
 
             <Link
               href={slide.secondaryCta.href}
-              className="px-6 py-3 border border-[#111111]/30 text-[#111111] font-bold text-xs tracking-[0.2em] uppercase rounded hover:border-[#9C7A4D] hover:text-[#9C7A4D] transition-all"
+              className="px-7 py-3.5 border border-[#111111]/30 text-[#111111] font-bold text-xs tracking-[0.2em] uppercase rounded hover:border-[#9C7A4D] hover:text-[#9C7A4D] transition-all"
             >
               {slide.secondaryCta.label}
             </Link>
-          </motion.div>
+          </div>
 
-          {/* DESKTOP ORDER ONLY: Price, Size, Concentration below CTAs */}
-          <motion.div
-            key={`micro-${slide.id}`}
-            initial={{ opacity: 0, y: 5 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.15 }}
-            className="hidden lg:flex items-center space-x-4 text-xs pt-1"
-          >
-            <span className="font-serif text-lg font-bold text-[#111111]">{slide.price} BDT</span>
+          {/* Price + Size */}
+          <div className="flex items-center space-x-4 text-sm pt-2">
+            <span className="font-serif text-xl font-bold text-[#111111]">{slide.price} BDT</span>
             <span className="text-[#E7DED2]">|</span>
-            <span className="text-[#555555] font-medium">{slide.volume}</span>
-            <span className="text-[#E7DED2]">|</span>
-            <span className="text-[#9C7A4D] font-semibold">{slide.concentration}</span>
-          </motion.div>
+            <span className="text-[#555555] font-medium">{slide.volume} ({slide.concentration})</span>
+          </div>
 
-          {/* Slider Progress Navigation Bar */}
-          <div className="pt-3 border-t border-[#E7DED2] flex items-center space-x-6">
+          {/* Slider Progress Bar */}
+          <div className="pt-4 border-t border-[#E7DED2] flex items-center space-x-6">
             <div className="flex items-center space-x-2">
               <button
                 onClick={() => setCurrentIndex((prev) => (prev === 0 ? HERO_SLIDES.length - 1 : prev - 1))}
-                className="p-1.5 rounded-full border border-[#E7DED2] text-[#111111] hover:border-[#9C7A4D] hover:text-[#9C7A4D] transition-colors"
-                aria-label="Previous Fragrance Slide"
+                className="p-2 rounded-full border border-[#E7DED2] text-[#111111] hover:border-[#9C7A4D] hover:text-[#9C7A4D] transition-colors"
+                aria-label="Previous Slide"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
               <button
                 onClick={() => setCurrentIndex((prev) => (prev + 1) % HERO_SLIDES.length)}
-                className="p-1.5 rounded-full border border-[#E7DED2] text-[#111111] hover:border-[#9C7A4D] hover:text-[#9C7A4D] transition-colors"
-                aria-label="Next Fragrance Slide"
+                className="p-2 rounded-full border border-[#E7DED2] text-[#111111] hover:border-[#9C7A4D] hover:text-[#9C7A4D] transition-colors"
+                aria-label="Next Slide"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>
@@ -248,24 +206,16 @@ export default function HeroSlider() {
           </div>
         </div>
 
-        {/* RIGHT SIDE: Bottle Image (Max 65% width, fully visible without extreme zoom) */}
-        <div className="lg:col-span-6 relative flex items-center justify-center max-lg:pt-2">
-          <div className="relative aspect-[4/3] w-full max-w-md bg-[#FFFFFF] border border-[#E7DED2] rounded-xl overflow-hidden p-4 flex flex-col items-center justify-center shadow-xs group">
-            <AnimatePresence mode="wait">
-              <motion.img
-                key={slide.id}
-                src={slide.bottleImageUrl}
-                alt={slide.fragranceName}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 0.85 }} // Fully visible without extreme zoom
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.35, ease: "easeOut" }}
-                className="max-h-[220px] lg:max-h-[260px] w-auto object-contain filter drop-shadow-sm group-hover:scale-90 transition-transform duration-300"
-              />
-            </AnimatePresence>
-
-            {/* Micro Badge */}
-            <div className="absolute bottom-3 left-4 right-4 bg-[#F8F5EF]/95 border border-[#E7DED2] p-2 rounded-lg flex justify-between items-center text-xs">
+        {/* RIGHT PRODUCT IMAGE (Full Bottle, Fully Visible, Zero Extreme Zoom) */}
+        <div className="lg:col-span-6 relative flex items-center justify-center">
+          <div className="relative aspect-[4/3] w-full max-w-lg bg-[#FFFFFF] border border-[#E7DED2] rounded-2xl overflow-hidden p-6 flex flex-col items-center justify-center shadow-xs group">
+            <img
+              src={slide.bottleImageUrl}
+              alt={slide.fragranceName}
+              className="max-h-[300px] lg:max-h-[360px] w-auto object-contain filter drop-shadow-md group-hover:scale-102 transition-transform duration-300"
+            />
+            
+            <div className="absolute bottom-4 left-4 right-4 bg-[#F8F5EF]/95 border border-[#E7DED2] p-3 rounded-xl flex justify-between items-center text-xs">
               <span className="font-serif font-bold text-[#111111]">{slide.fragranceName} {slide.italicWord}</span>
               <span className="font-serif font-bold text-[#9C7A4D]">{slide.price} BDT</span>
             </div>
