@@ -26,6 +26,7 @@ import {
   Sliders,
   Image,
   Layout,
+  ShieldCheck,
 } from "lucide-react";
 
 export default function AdminSidebarTree() {
@@ -33,40 +34,43 @@ export default function AdminSidebarTree() {
   const pathname = usePathname();
 
   const handleAdminLogout = async () => {
-    await fetch("/api/auth/logout", { method: "POST" });
-    router.push("/admin/login");
-    router.refresh();
+    try {
+      await fetch("/api/admin/logout", { method: "POST" });
+      router.push("/admin/login");
+    } catch {
+      router.push("/admin/login");
+    }
   };
 
   const menuSections = [
     {
-      title: "Core Catalog",
+      title: "Core Operations",
       items: [
-        { label: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
-        { label: "Products", href: "/admin/products", icon: Package },
+        { label: "Executive Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
+        { label: "Product Inventory", href: "/admin/products", icon: Package },
         { label: "Categories", href: "/admin/categories", icon: Layers },
-        { label: "Collections", href: "/admin/collections", icon: FolderTree },
-        { label: "Vendors", href: "/admin/vendors", icon: Building2 },
-      ],
-    },
-    {
-      title: "Operations & Logistics",
-      items: [
+        { label: "Curated Collections", href: "/admin/collections", icon: FolderTree },
+        { label: "Flash Sales Engine", href: "/admin/flash-sales", icon: Zap },
         { label: "Orders & MFS", href: "/admin/orders", icon: ShoppingBag },
         { label: "Inventory Matrix", href: "/admin/inventory", icon: Boxes },
-        { label: "Warehouses", href: "/admin/warehouses", icon: Warehouse },
-        { label: "Courier Logistics", href: "/admin/courier", icon: Truck },
-        { label: "Shipments", href: "/admin/shipments", icon: Sliders },
-        { label: "Customers", href: "/admin/customers", icon: Users },
+        { label: "Client Directory (CRM)", href: "/admin/customers", icon: Users },
       ],
     },
     {
-      title: "Growth, CMS & Content",
+      title: "Logistics & Fulfillment",
       items: [
-        { label: "Visual CMS Builder", href: "/admin/cms", icon: Layout },
-        { label: "Media Library", href: "/admin/media", icon: Image },
-        { label: "Coupons", href: "/admin/coupons", icon: Tag },
-        { label: "Flash Sales", href: "/admin/flash-sales", icon: Zap },
+        { label: "Shipments & Tracking", href: "/admin/shipments", icon: Truck },
+        { label: "Courier Integration API", href: "/admin/courier", icon: Zap },
+        { label: "Warehouses & Depots", href: "/admin/warehouses", icon: Warehouse },
+        { label: "Raw Material Vendors", href: "/admin/vendors", icon: Building2 },
+      ],
+    },
+    {
+      title: "CMS & Customer Engagement",
+      items: [
+        { label: "Hero Campaign CMS", href: "/admin/cms", icon: Layout },
+        { label: "Media Asset Library", href: "/admin/media", icon: Image },
+        { label: "Vouchers & Discounts", href: "/admin/coupons", icon: Tag },
         { label: "Journal Articles", href: "/admin/blog", icon: FileText },
         { label: "Reviews", href: "/admin/reviews", icon: Star },
         { label: "Support Tickets", href: "/admin/support", icon: MessageSquare },
@@ -74,9 +78,10 @@ export default function AdminSidebarTree() {
       ],
     },
     {
-      title: "Analytics & Settings",
+      title: "Analytics & Security",
       items: [
         { label: "Analytics Reports", href: "/admin/analytics", icon: BarChart3 },
+        { label: "Admin Team & Roles", href: "/admin/team", icon: ShieldCheck },
         { label: "SEO Manager", href: "/admin/seo", icon: Search },
         { label: "Integrations & Pixels", href: "/admin/integrations", icon: Sliders },
         { label: "System Settings", href: "/admin/settings", icon: Settings },

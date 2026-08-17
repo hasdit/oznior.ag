@@ -8,6 +8,20 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        obsidian: {
+          DEFAULT: "#0F0F0F",
+          surface: "#181818",
+          card: "#202020",
+        },
+        gold: {
+          champagne: "#D4AF37",
+          light: "#E5C158",
+          muted: "#B08D57",
+        },
+        alabaster: {
+          DEFAULT: "#F7F3EE",
+          muted: "#A0A0A0",
+        },
         oznior: {
           bg: "#F7F3EE",
           surface: "#FFFFFF",

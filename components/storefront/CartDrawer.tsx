@@ -3,16 +3,18 @@
 import Link from "next/link";
 import { X, Trash2, ShoppingBag, ArrowRight, ShieldCheck, Truck } from "lucide-react";
 import { useUIStore } from "@/lib/store";
+import { useAdminStore } from "@/lib/adminStore";
 import { trackEvent } from "@/lib/analytics";
 
 export default function CartDrawer() {
   const { cart, isCartOpen, closeCart, removeFromCart, updateQuantity } = useUIStore();
+  const { settings } = useAdminStore();
 
   if (!isCartOpen) return null;
 
   const totalCartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const freeShippingThreshold = 5000;
+  const freeShippingThreshold = settings.freeShippingThreshold || 5000;
   const progressPercent = Math.min(100, (subtotal / freeShippingThreshold) * 100);
   const remainingForFreeShipping = Math.max(0, freeShippingThreshold - subtotal);
 
@@ -21,7 +23,7 @@ export default function CartDrawer() {
       role="dialog"
       aria-modal="true"
       aria-label="Shopping Bag"
-      className="fixed inset-0 z-50 bg-[#1A1A1A]/80 backdrop-blur-md flex justify-end"
+      className="fixed inset-0 z-50 bg-[#1A1A1A]/80 backdrop-blur-md flex justify-end font-sans selection:bg-[#B08D57] selection:text-[#F7F3EE]"
     >
       <div className="bg-[#FFFFFF] w-full max-w-md h-full overflow-y-auto p-6 md:p-8 flex flex-col justify-between shadow-2xl animate-in slide-in-from-right duration-300 text-left">
         {/* Header */}
@@ -125,7 +127,7 @@ export default function CartDrawer() {
           )}
         </div>
 
-        {/* Footer Subtotal & Checkout Action (with Mobile Bottom Safe Padding) */}
+        {/* Footer Subtotal & Checkout Action */}
         {cart.length > 0 && (
           <div className="pt-6 border-t border-[#E7DED2] space-y-4 pb-20 md:pb-0">
             <div className="space-y-2 text-xs text-[#555555]">

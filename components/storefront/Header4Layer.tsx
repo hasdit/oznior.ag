@@ -7,7 +7,6 @@ import {
   ShoppingBag,
   Heart,
   User,
-  Phone,
   HelpCircle,
   Truck,
   MessageCircle,
@@ -16,6 +15,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { useUIStore } from "@/lib/store";
+import { useAdminStore } from "@/lib/adminStore";
 import { trackEvent } from "@/lib/analytics";
 
 export default function Header4Layer() {
@@ -28,8 +28,9 @@ export default function Header4Layer() {
     openFinder,
   } = useUIStore();
 
-  const totalCartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const { settings } = useAdminStore();
 
+  const totalCartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
   const [activeMegaMenu, setActiveMegaMenu] = useState<string | null>(null);
 
   const handleOpenMegaMenu = (menuName: string) => {
@@ -37,31 +38,35 @@ export default function Header4Layer() {
     trackEvent("mega_menu_open", { menu: menuName });
   };
 
+  const whatsappPhone = settings.supportPhone.replace(/[^0-9]/g, "");
+
   return (
     <header className="sticky top-0 z-40 w-full bg-[#F7F3EE] border-b border-[#E7DED2] shadow-sm font-sans transition-all">
       {/* LAYER 1: Announcement Bar */}
-      <div className="w-full bg-[#1A1A1A] text-[#F7F3EE] text-[11px] font-semibold uppercase tracking-[0.22em] py-2 px-4 text-center">
-        <div className="max-w-[1440px] mx-auto flex items-center justify-between">
-          <span className="hidden md:inline text-[#B08D57]">✓ 100% Authentic Haute Parfumerie</span>
-          <span className="mx-auto md:mx-0">
-            COMPLIMENTARY EXPRESS DELIVERY ACROSS BANGLADESH ON ORDERS OVER ৳ 5,000 BDT
-          </span>
-          <span className="hidden md:inline text-[#B08D57]">✨ 5x5ml Discovery Coffret ৳ 1,200</span>
+      {settings.announcementEnabled && (
+        <div className="w-full bg-[#1A1A1A] text-[#F7F3EE] text-[11px] font-semibold uppercase tracking-[0.22em] py-2 px-4 text-center">
+          <div className="max-w-[1440px] mx-auto flex items-center justify-between">
+            <span className="hidden md:inline text-[#B08D57]">✓ 100% Authentic Haute Parfumerie</span>
+            <span className="mx-auto md:mx-0">
+              {settings.announcementBarText}
+            </span>
+            <span className="hidden md:inline text-[#B08D57]">✨ 5x5ml Discovery Coffret ৳ 1,200</span>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* LAYER 2: Utility Bar */}
       <div className="w-full bg-[#F7F3EE] border-b border-[#E7DED2] py-1.5 px-6 md:px-12 text-[11px] text-[#555555]">
         <div className="max-w-[1440px] mx-auto flex items-center justify-between">
           <div className="flex items-center space-x-6">
             <a
-              href="https://wa.me/8801700000000"
+              href={`https://wa.me/${whatsappPhone}`}
               target="_blank"
               rel="noreferrer"
               className="flex items-center space-x-1.5 hover:text-[#B08D57] transition-colors"
             >
               <MessageCircle className="w-3.5 h-3.5 text-[#2F6F4F]" />
-              <span className="font-semibold text-[#1A1A1A]">WhatsApp VIP Ordering</span>
+              <span className="font-semibold text-[#1A1A1A]">WhatsApp VIP Ordering ({settings.supportPhone})</span>
             </a>
             <span className="hidden sm:inline text-[#E7DED2]">|</span>
             <Link href="/support" className="hidden sm:flex items-center space-x-1.5 hover:text-[#B08D57]">
