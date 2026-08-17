@@ -5,7 +5,6 @@ import DiscoveryCoffret from "@/components/storefront/home/DiscoveryCoffret";
 import NewArrivalsSection from "@/components/storefront/home/NewArrivalsSection";
 import ShopByScentFamily from "@/components/storefront/home/ShopByScentFamily";
 import AllProductsGrid from "@/components/storefront/home/AllProductsGrid";
-import OlfactoryWorldSection from "@/components/storefront/home/OlfactoryWorldSection";
 import CraftsmanshipSection from "@/components/storefront/home/CraftsmanshipSection";
 import SocialProofReviews from "@/components/storefront/home/SocialProofReviews";
 import NewsletterSignup from "@/components/storefront/home/NewsletterSignup";
@@ -28,22 +27,19 @@ export default function Homepage() {
       {/* 05. New Arrivals (3-Second Auto-Slider Carousel) */}
       <NewArrivalsSection />
 
-      {/* 06. Shop by Scent Family */}
+      {/* 06. Shop by Scent Family (Macro Botanical Ingredient Cards) */}
       <ShopByScentFamily />
 
       {/* 07. All Fragrance Editions Grid (Multi-Row Grid + See All Products Button) */}
       <AllProductsGrid />
 
-      {/* 08. Fragrance Notes Experience (3-Tier Olfactory Pyramid) */}
-      <OlfactoryWorldSection />
-
-      {/* 09. Brand Story & Craftsmanship Editorial */}
+      {/* 08. Craftsmanship Story Rail (Horizontal Story Cards Rail) */}
       <CraftsmanshipSection />
 
-      {/* 10. Reviews & Social Proof */}
+      {/* 09. Reviews & Social Proof */}
       <SocialProofReviews />
 
-      {/* 11. VIP Privilege Newsletter */}
+      {/* 10. VIP Privilege Newsletter */}
       <NewsletterSignup />
     </div>
   );

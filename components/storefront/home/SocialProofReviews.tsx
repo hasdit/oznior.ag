@@ -1,83 +1,200 @@
-import { Star, ShieldCheck } from "lucide-react";
+"use client";
+
+import { useState, useEffect, useRef } from "react";
+import { Star, CheckCircle2, ChevronLeft, ChevronRight, Quote } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 const REVIEWS = [
   {
-    author: "Tanvir H.",
+    id: 1,
+    name: "Tariqul Islam",
     location: "Gulshan, Dhaka",
     rating: 5,
-    date: "Verified Purchaser • 2 days ago",
-    title: "Unbelievable Longevity and Projection",
+    date: "2 days ago",
+    verified: true,
+    perfume: "Royale Oud Concentré (50ml)",
+    title: "Unbelievable 18-hour projection!",
     comment:
-      "Royale Oud Concentré easily lasts 18+ hours on my linen jackets. The Cambodian oud is rich without being overwhelming. Definitely Creed-level presentation.",
+      "I was skeptical about buying an extrait online, but Royale Oud exceeded every expectation. Applied at 8 AM for an executive meeting and could still smell the rich damask rose and agarwood at midnight.",
   },
   {
-    author: "Rahim Chowdhury",
-    location: "Dhanmondi, Dhaka",
+    id: 2,
+    name: "Nusrat Jahan",
+    location: "Banani, Dhaka",
     rating: 5,
-    date: "Verified Purchaser • 1 week ago",
-    title: "Express Delivery in Velvet Packaging",
+    date: "1 week ago",
+    verified: true,
+    perfume: "Maison Discovery Coffret (5x5ml)",
+    title: "The discovery set is a must-buy",
     comment:
-      "Ordered at 3 PM and received it the next morning via Pathao courier. The velvet box and authenticity card make unboxing feel like a true luxury experience.",
+      "The packaging alone feels like something straight out of Harrods London. All 5 samples smell distinct and luxurious. The ৳ 500 voucher credit towards the 50ml bottle was the cherry on top!",
   },
   {
-    author: "Dr. Farhana Y.",
+    id: 3,
+    name: "Adnan Chowdhury",
     location: "Chittagong",
     rating: 5,
-    date: "Verified Purchaser • 2 weeks ago",
-    title: "Aeterna Amber Gold is My New Signature",
+    date: "2 weeks ago",
+    verified: true,
+    perfume: "Aeterna Amber Gold (50ml)",
+    title: "Warm, magnetic & highly complimented",
     comment:
-      "Luminous, warm, and sophisticated. Compliments every time I wear it to formal hospital dinners.",
+      "Amber Gold has become my signature evening scent. The amber and Guatemalan cardamom blend is smooth and sophisticated. Got 4 compliments on the very first night I wore it.",
+  },
+  {
+    id: 4,
+    name: "Mahmud Hasan",
+    location: "Uttara, Dhaka",
+    rating: 5,
+    date: "3 weeks ago",
+    verified: true,
+    perfume: "Noir Wood Intense (50ml)",
+    title: "Executive smoky cedarwood perfection",
+    comment:
+      "Dark, smoky, and extremely rich. You can tell this oil was aged in copper vats. Far superior to mass commercial designer fragrances.",
+  },
+  {
+    id: 5,
+    name: "Farhana Rahman",
+    location: "Sylhet",
+    rating: 5,
+    date: "1 month ago",
+    verified: true,
+    perfume: "Soleil Rose Extrait (50ml)",
+    title: "Velvety Parisian rose perfection",
+    comment:
+      "Damask rose paired with mandarin and neroli. It smells so fresh yet warm. Delivery via bKash COD was fast and packaging was 100% authentic.",
   },
 ];
 
 export default function SocialProofReviews() {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [isPaused, setIsPaused] = useState(false);
+
+  // 3.5-Second Auto-Slide Interval
+  useEffect(() => {
+    if (isPaused) return;
+    const interval = setInterval(() => {
+      if (scrollContainerRef.current) {
+        const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+        const cardWidth = 380;
+        const isEnd = scrollLeft + clientWidth >= scrollWidth - 10;
+
+        if (isEnd) {
+          scrollContainerRef.current.scrollTo({ left: 0, behavior: "smooth" });
+        } else {
+          scrollContainerRef.current.scrollBy({ left: cardWidth, behavior: "smooth" });
+        }
+      }
+    }, 3500);
+
+    return () => clearInterval(interval);
+  }, [isPaused]);
+
+  const handleScrollLeft = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: -380, behavior: "smooth" });
+      trackEvent("hero_cta_click", { action: "reviews_scroll_left" });
+    }
+  };
+
+  const handleScrollRight = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: 380, behavior: "smooth" });
+      trackEvent("hero_cta_click", { action: "reviews_scroll_right" });
+    }
+  };
+
   return (
-    <section className="py-32 px-6 md:px-12 max-w-[1440px] mx-auto space-y-16 bg-[#F8F5EF]">
-      {/* Header */}
-      <div className="text-center space-y-4">
-        <span className="text-[12px] uppercase tracking-[0.3em] font-semibold text-[#8A6A44]">
-          VOICES OF DISCERNING CLIENTS
-        </span>
-        <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold text-[#111111]">
-          VERIFIED CLIENT REVIEWS
-        </h2>
-        <div className="flex items-center justify-center space-x-2 text-sm text-[#4B4B4B]">
-          <div className="flex text-[#8A6A44]">
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} className="w-4 h-4 fill-[#8A6A44]" />
-            ))}
+    <section className="py-20 px-6 md:px-12 max-w-[1440px] mx-auto space-y-8 bg-[#FFFFFF] border-y border-[#E7DED2] my-12 font-sans text-left">
+      {/* Header & Controls Row */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#E7DED2] pb-6 gap-4">
+        <div>
+          <div className="flex items-center space-x-2 text-[#B08D57] mb-1">
+            <div className="flex">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="w-4 h-4 fill-[#B08D57]" />
+              ))}
+            </div>
+            <span className="text-xs font-bold text-[#1A1A1A]">4.9 / 5.0</span>
+            <span className="text-xs text-[#555555] font-light">(420+ Verified Reviews)</span>
           </div>
-          <span className="font-bold text-[#111111]">4.9 / 5.0</span>
-          <span>(Based on 420+ Verified Buyers in Bangladesh)</span>
+
+          <h2 className="font-serif text-3xl md:text-5xl font-bold text-[#1A1A1A]">
+            CLIENT TESTIMONIALS
+          </h2>
+        </div>
+
+        {/* Navigation Arrow Controls */}
+        <div className="flex items-center space-x-3">
+          <button
+            onClick={handleScrollLeft}
+            className="w-9 h-9 border border-[#1A1A1A]/30 hover:border-[#B08D57] hover:text-[#B08D57] flex items-center justify-center text-[#1A1A1A] transition-colors rounded-xs"
+            aria-label="Scroll left"
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+          <button
+            onClick={handleScrollRight}
+            className="w-9 h-9 border border-[#1A1A1A]/30 hover:border-[#B08D57] hover:text-[#B08D57] flex items-center justify-center text-[#1A1A1A] transition-colors rounded-xs"
+            aria-label="Scroll right"
+          >
+            <ChevronRight className="w-4 h-4" />
+          </button>
         </div>
       </div>
 
-      {/* Review Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {REVIEWS.map((rev, idx) => (
+      {/* Single-Row Auto-Scrolling Horizontal Review Carousel */}
+      <div
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+        ref={scrollContainerRef}
+        className="flex items-stretch gap-6 overflow-x-auto scrollbar-none scroll-smooth pb-4 pt-2 snap-x snap-mandatory"
+        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+      >
+        {REVIEWS.map((rev) => (
           <div
-            key={idx}
-            className="bg-[#FFFFFF] border border-[#E4DDD2] rounded-2xl p-8 space-y-4 text-left shadow-[0_10px_30px_rgba(0,0,0,0.02)]"
+            key={rev.id}
+            className="w-[300px] sm:w-[340px] md:w-[380px] shrink-0 snap-start bg-[#F7F3EE] border border-[#E7DED2] rounded-xl p-6 flex flex-col justify-between space-y-4 hover:border-[#B08D57] transition-all shadow-xs"
           >
-            <div className="flex justify-between items-start">
-              <div className="flex text-[#8A6A44]">
-                {[...Array(rev.rating)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-[#8A6A44]" />
-                ))}
+            <div className="space-y-3">
+              {/* Rating & Quote Icon Row */}
+              <div className="flex justify-between items-center">
+                <div className="flex text-[#B08D57]">
+                  {[...Array(rev.rating)].map((_, i) => (
+                    <Star key={i} className="w-3.5 h-3.5 fill-[#B08D57]" />
+                  ))}
+                </div>
+                <Quote className="w-5 h-5 text-[#B08D57]/40" />
               </div>
-              <span className="text-[10px] text-[#8A6A44] font-semibold flex items-center gap-1 bg-[#8A6A44]/10 px-2.5 py-1 rounded-full">
-                <ShieldCheck className="w-3 h-3" /> Verified Buyer
-              </span>
+
+              {/* Review Headline & Body */}
+              <h3 className="font-serif font-bold text-base text-[#1A1A1A]">
+                "{rev.title}"
+              </h3>
+              <p className="text-xs text-[#555555] font-light leading-relaxed">
+                {rev.comment}
+              </p>
             </div>
 
-            <h3 className="font-serif text-xl font-bold text-[#111111]">{rev.title}</h3>
-            <p className="text-base text-[#4B4B4B] font-light leading-[1.75] italic">
-              &ldquo;{rev.comment}&rdquo;
-            </p>
-
-            <div className="pt-4 border-t border-[#E4DDD2] flex justify-between items-center text-xs">
-              <span className="font-bold text-[#111111]">{rev.author} ({rev.location})</span>
-              <span className="text-[#4B4B4B]/60 text-[10px]">{rev.date}</span>
+            {/* Reviewer Details & Perfume Purchased */}
+            <div className="pt-3 border-t border-[#E7DED2] flex items-center justify-between text-left">
+              <div>
+                <div className="flex items-center space-x-1.5">
+                  <span className="font-serif font-bold text-sm text-[#1A1A1A]">
+                    {rev.name}
+                  </span>
+                  {rev.verified && (
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#B08D57]" />
+                  )}
+                </div>
+                <span className="text-[10px] text-[#555555] block">
+                  {rev.location} • {rev.perfume}
+                </span>
+              </div>
+              <span className="text-[10px] text-[#B08D57] font-semibold uppercase tracking-wider">
+                Verified
+              </span>
             </div>
           </div>
         ))}

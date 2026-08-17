@@ -1,62 +1,71 @@
+import { Sparkles } from "lucide-react";
+
 export default function OlfactoryWorldSection() {
-  const pyramidLayers = [
+  const accords = [
     {
-      stage: "TOP NOTES",
-      label: "The First Impression",
-      notes: "Bergamot · Pink Pepper · Saffron",
-      desc: "Luminous, vibrant accords that awaken the senses upon initial application.",
+      step: "01",
+      title: "TOP NOTES",
+      time: "0 — 15 MINS",
+      notes: "Calabrian Bergamot & Pink Pepper",
+      desc: "Luminous, radiant accords awakening the senses upon initial spray.",
     },
     {
-      stage: "HEART NOTES",
-      label: "The Core Identity",
-      notes: "Damask Rose · Jasmine · Assam Oud",
-      desc: "Deep botanical florals and rich oud wood unfolding after 15 minutes of skin contact.",
+      step: "02",
+      title: "HEART NOTES",
+      time: "15 MINS — 4 HOURS",
+      notes: "Damask Rose & Aged Assam Oud",
+      desc: "Deep botanical florals unfolding as the formulation warms on skin.",
     },
     {
-      stage: "BASE NOTES",
-      label: "The Lasting Memory",
-      notes: "Cambodian Oud · Ambergris · Sandalwood",
-      desc: "Sensual amber and precious woods persisting for 18+ hours on skin and garments.",
+      step: "03",
+      title: "BASE NOTES",
+      time: "4 — 18+ HOURS",
+      notes: "Baltic Ambergris & Mysore Sandalwood",
+      desc: "Sensual velvet amber persisting for 18+ hours on skin and garments.",
     },
   ];
 
   return (
-    <section className="py-32 px-6 md:px-12 max-w-[1440px] mx-auto space-y-16 bg-[#F8F5EF]">
-      <div className="text-center space-y-4">
-        <span className="text-[12px] uppercase tracking-[0.3em] font-semibold text-[#8A6A44]">
-          THE ARCHITECTURE OF A FRAGRANCE
-        </span>
-        <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold text-[#111111]">
-          THE OLFACTORY WORLD
-        </h2>
-        <p className="text-lg md:text-xl text-[#4B4B4B] font-light max-w-xl mx-auto leading-[1.75]">
-          Every OZNIOR Extrait de Parfum evolves dynamically across three chronological accords.
-        </p>
-      </div>
-
-      {/* Elegant Line Diagram Presentation */}
-      <div className="max-w-3xl mx-auto space-y-8">
-        {pyramidLayers.map((layer, idx) => (
-          <div
-            key={idx}
-            className="bg-[#FFFFFF] border border-[#E4DDD2] rounded-xl p-8 space-y-3 relative hover:border-[#8A6A44]/80 transition-colors shadow-[0_10px_30px_rgba(0,0,0,0.02)]"
-          >
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-[#E4DDD2] pb-3 gap-2">
-              <span className="text-[12px] uppercase tracking-[0.25em] font-bold text-[#8A6A44]">
-                {layer.stage}
-              </span>
-              <span className="text-sm font-serif italic text-[#4B4B4B]">
-                {layer.label}
-              </span>
-            </div>
-            <h3 className="font-serif text-3xl font-bold text-[#111111]">
-              {layer.notes}
-            </h3>
-            <p className="text-base text-[#4B4B4B] font-light leading-[1.75]">
-              {layer.desc}
-            </p>
+    <section className="py-20 px-6 md:px-12 max-w-[1440px] mx-auto bg-[#F7F3EE] border-y border-[#E7DED2] my-12 font-sans text-left">
+      <div className="space-y-12">
+        
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#E7DED2] pb-6 gap-4">
+          <div>
+            <span className="text-[11px] uppercase tracking-[0.3em] font-semibold text-[#B08D57] flex items-center">
+              <Sparkles className="w-3.5 h-3.5 mr-2" /> CHRONOLOGICAL SCENT ARCHITECTURE
+            </span>
+            <h2 className="font-serif text-3xl md:text-4xl font-bold text-[#1A1A1A] mt-1">
+              THE 3-STAGE SCENT EVOLUTION
+            </h2>
           </div>
-        ))}
+          <p className="text-xs md:text-sm text-[#555555] font-light max-w-md">
+            Every OZNIOR Extrait de Parfum (30% density) matures across three distinct chronological accords.
+          </p>
+        </div>
+
+        {/* Ultra-Light 3-Column Minimal Strip */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 divide-y md:divide-y-0 md:divide-x divide-[#E7DED2]">
+          {accords.map((item, idx) => (
+            <div key={item.step} className={`${idx !== 0 ? "md:pl-12 pt-6 md:pt-0" : ""} space-y-3`}>
+              <div className="flex justify-between items-center text-[11px] font-bold text-[#B08D57] uppercase tracking-widest">
+                <span>{item.step}. {item.title}</span>
+                <span className="text-[10px] text-[#555555] font-semibold bg-[#FFFFFF] px-2.5 py-0.5 rounded border border-[#E7DED2]">
+                  {item.time}
+                </span>
+              </div>
+
+              <h3 className="font-serif text-xl font-bold text-[#1A1A1A]">
+                {item.notes}
+              </h3>
+
+              <p className="text-xs text-[#555555] font-light leading-relaxed">
+                {item.desc}
+              </p>
+            </div>
+          ))}
+        </div>
+
       </div>
     </section>
   );
