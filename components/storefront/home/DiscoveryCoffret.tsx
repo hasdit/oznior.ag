@@ -1,62 +1,85 @@
 import Link from "next/link";
 import { ArrowRight, Sparkles, CheckCircle2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 export default function DiscoveryCoffret() {
   return (
-    <section className="py-24 px-6 md:px-12 bg-[#FFFFFF] border-y border-[#E4DDD2]">
-      <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        {/* Left Image Coffret Box */}
-        <div className="lg:col-span-6 relative aspect-[4/3] w-full bg-[#F8F5EF] border border-[#E4DDD2] rounded-2xl overflow-hidden p-8 flex items-center justify-center shadow-[0_15px_40px_rgba(0,0,0,0.03)]">
-          <img
-            src="https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&w=800&q=80"
-            alt="OZNIOR Discovery Sample Coffret"
-            className="max-h-full max-w-full object-contain filter drop-shadow-[0_15px_30px_rgba(138,106,68,0.15)]"
-          />
-        </div>
+    <section className="relative w-full h-[600px] md:h-[650px] bg-[#111111] text-[#FFFFFF] overflow-hidden font-sans border-y border-[#E7DED2]/20 my-16">
+      {/* Background Full-Bleed Imagery Canvas with Gradient Scrim */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src="https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&w=2000&q=85"
+          alt="OZNIOR Discovery Coffret Set"
+          className="w-full h-full object-cover object-center md:object-[right_center] filter brightness-90 contrast-105"
+        />
+        {/* Dark Luxury Scrim Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#111111]/90 via-[#111111]/55 to-transparent max-md:bg-gradient-to-t max-md:from-[#111111]/95 max-md:via-[#111111]/60 max-md:to-transparent" />
+      </div>
 
-        {/* Right Story & Offer Specs */}
-        <div className="lg:col-span-6 space-y-6 text-left">
-          <div className="inline-flex items-center space-x-2">
-            <Sparkles className="w-4 h-4 text-[#8A6A44]" />
-            <span className="text-[12px] uppercase tracking-[0.3em] font-semibold text-[#8A6A44]">
-              RISK-FREE FRAGRANCE TRIAL
+      {/* Main Editorial Content Zone */}
+      <div className="relative z-10 max-w-[1440px] w-full h-full mx-auto px-6 md:px-16 flex flex-col justify-center text-left py-12">
+        <div className="max-w-xl space-y-6">
+          
+          {/* Top Gold Tag */}
+          <div className="flex items-center space-x-2">
+            <Sparkles className="w-4 h-4 text-[#B08D57]" />
+            <span className="text-[11px] md:text-[12px] uppercase tracking-[0.25em] font-semibold text-[#B08D57]">
+              RISK-FREE FRAGRANCE RITUAL
             </span>
           </div>
 
-          <h2 className="font-serif text-4xl sm:text-5xl font-bold text-[#111111] leading-tight">
-            THE MAISON DISCOVERY COFFRET
+          {/* Serif Headline (Exact Reference Font Scale & Ending Period) */}
+          <h2 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-[#F7F3EE] leading-[1.1]">
+            Begin with a smaller ritual.
           </h2>
 
-          <p className="text-lg text-[#4B4B4B] font-light leading-[1.75]">
-            Unsure which scent defines your signature? Experience 5 iconic 5ml Extrait de Parfum editions delivered in a velvet-lined coffret box.
+          {/* Subtext Paragraph */}
+          <p className="text-sm sm:text-base text-[#F7F3EE]/85 font-light leading-[1.7] max-w-lg">
+            Explore 5 iconic 5ml Extrait de Parfum spray editions in a velvet-lined coffret box. Includes a ৳ 500 voucher credit redeemable towards your full-sized 50ml or 100ml bottle.
           </p>
 
-          <div className="space-y-3 pt-2">
-            <div className="flex items-center space-x-3 text-sm text-[#111111] font-medium">
-              <CheckCircle2 className="w-4 h-4 text-[#8A6A44]" />
-              <span>Includes 5 x 5ml Spray Bottles (Royale Oud, Aeterna Amber, Noir Wood, Soleil Rose, Imperial Leather)</span>
+          {/* Feature Highlights Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+            <div className="flex items-center space-x-2 text-xs text-[#F7F3EE]/90 font-medium">
+              <CheckCircle2 className="w-4 h-4 text-[#B08D57] shrink-0" />
+              <span>5 x 5ml Extrait Sprays</span>
             </div>
-            <div className="flex items-center space-x-3 text-sm text-[#111111] font-medium">
-              <CheckCircle2 className="w-4 h-4 text-[#8A6A44]" />
-              <span>Includes ৳ 500 Credit Voucher towards your full-sized 50ml or 100ml bottle</span>
+            <div className="flex items-center space-x-2 text-xs text-[#F7F3EE]/90 font-medium">
+              <CheckCircle2 className="w-4 h-4 text-[#B08D57] shrink-0" />
+              <span>৳ 500 Bottle Credit Voucher</span>
             </div>
-            <div className="flex items-center space-x-3 text-sm text-[#111111] font-medium">
-              <CheckCircle2 className="w-4 h-4 text-[#8A6A44]" />
-              <span>Complimentary Nationwide Express Delivery Across Bangladesh</span>
+            <div className="flex items-center space-x-2 text-xs text-[#F7F3EE]/90 font-medium">
+              <CheckCircle2 className="w-4 h-4 text-[#B08D57] shrink-0" />
+              <span>Velvet Packaging Included</span>
+            </div>
+            <div className="flex items-center space-x-2 text-xs text-[#F7F3EE]/90 font-medium">
+              <CheckCircle2 className="w-4 h-4 text-[#B08D57] shrink-0" />
+              <span>Free Nationwide Express Delivery</span>
             </div>
           </div>
 
-          <div className="pt-4 flex items-center space-x-6">
-            <span className="font-serif text-3xl font-bold text-[#111111]">
-              ৳ 1,200 <span className="text-sm font-sans text-[#4B4B4B]/60 font-normal">BDT</span>
-            </span>
-            <Link href="/checkout">
-              <Button size="lg" className="bg-[#111111] text-[#F8F5EF] hover:bg-[#8A6A44] transition-colors py-4 px-8 text-xs tracking-widest uppercase">
-                CLAIM DISCOVERY COFFRET <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
+          {/* Price & Action Button Group (Exact Hero Slider Button Styling) */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-5 pt-4">
+            <div className="flex items-baseline space-x-2">
+              <span className="font-serif text-3xl font-bold text-[#FFFFFF]">৳ 1,200</span>
+              <span className="text-xs text-[#B08D57] font-semibold uppercase tracking-wider">BDT</span>
+            </div>
+
+            <Link
+              href="/checkout"
+              className="px-7 py-3.5 bg-[#F7F3EE] text-[#111111] font-semibold text-xs tracking-wider rounded-xs hover:bg-[#B08D57] hover:text-[#FFFFFF] transition-all duration-300 shadow-sm flex items-center justify-center space-x-2 text-center"
+            >
+              <span>Claim discovery coffret</span>
+              <ArrowRight className="w-4 h-4 ml-1" />
+            </Link>
+
+            <Link
+              href="/parfums?format=discovery"
+              className="px-2 py-3.5 text-xs text-[#F7F3EE] hover:text-[#B08D57] font-medium tracking-wide underline underline-offset-8 decoration-1 decoration-[#F7F3EE]/40 hover:decoration-[#B08D57] transition-all text-center sm:text-left"
+            >
+              View included notes
             </Link>
           </div>
+
         </div>
       </div>
     </section>
