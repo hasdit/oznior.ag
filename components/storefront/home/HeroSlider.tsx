@@ -81,21 +81,21 @@ export default function HeroSlider() {
   };
 
   return (
-    <section className="relative w-full h-[88vh] min-h-[650px] lg:min-h-[750px] bg-[#111111] text-[#FFFFFF] overflow-hidden select-none font-sans">
+    <section className="relative w-full h-[80vh] min-h-[520px] md:h-[540px] lg:h-[580px] xl:h-[620px] bg-[#111111] text-[#FFFFFF] overflow-hidden select-none font-sans">
       {/* Full-Bleed Background Image Canvas */}
       <AnimatePresence mode="wait">
         <motion.div
           key={slide.id}
-          initial={{ opacity: 0, scale: 1.04 }}
+          initial={{ opacity: 0, scale: 1.03 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="absolute inset-0 z-0"
         >
           <img
             src={slide.imageUrl}
             alt={slide.headline}
-            className="w-full h-full object-cover object-center filter brightness-90 contrast-105"
+            className="w-full h-full object-cover object-center md:object-[center_35%] filter brightness-90 contrast-105"
           />
           {/* Subtle Scrim Gradient Overlay for Crisp Text Contrast */}
           <div className="absolute inset-0 bg-gradient-to-r from-[#111111]/85 via-[#111111]/40 to-transparent max-md:bg-gradient-to-t max-md:from-[#111111]/90 max-md:via-[#111111]/50 max-md:to-transparent" />
@@ -103,32 +103,32 @@ export default function HeroSlider() {
       </AnimatePresence>
 
       {/* Main Viewport Content Overlay */}
-      <div className="relative z-10 max-w-[1440px] w-full h-full mx-auto px-6 md:px-16 flex flex-col justify-between py-12 md:py-20 text-left">
+      <div className="relative z-10 max-w-[1440px] w-full h-full mx-auto px-6 md:px-16 flex flex-col justify-between py-8 md:py-12 text-left">
         
         {/* Top Spacer / Tag */}
-        <div className="pt-2">
+        <div className="pt-1">
           <motion.span
             key={`tag-${slide.id}`}
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-[11px] md:text-[12px] uppercase tracking-[0.25em] font-semibold text-[#B08D57] block"
+            className="text-[10px] md:text-[11px] uppercase tracking-[0.25em] font-semibold text-[#B08D57] block"
           >
             {slide.tag}
           </motion.span>
         </div>
 
         {/* Center/Left Content Zone */}
-        <div className="max-w-2xl space-y-6 my-auto">
+        <div className="max-w-xl space-y-4 my-auto">
           {/* Headline Typography (Playfair Display / Serif) */}
           <AnimatePresence mode="wait">
             <motion.h1
               key={`headline-${slide.id}`}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="font-serif text-4xl sm:text-6xl lg:text-7xl font-semibold tracking-tight text-[#F7F3EE] leading-[1.08]"
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="font-serif text-3xl sm:text-5xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-[#F7F3EE] leading-[1.1]"
             >
               {slide.headline}
             </motion.h1>
@@ -137,10 +137,10 @@ export default function HeroSlider() {
           {/* Subtext Body */}
           <motion.p
             key={`subtext-${slide.id}`}
-            initial={{ opacity: 0, y: 15 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.15 }}
-            className="text-base sm:text-lg text-[#F7F3EE]/85 font-light leading-[1.7] max-w-xl"
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-sm sm:text-base text-[#F7F3EE]/85 font-light leading-[1.65] max-w-lg"
           >
             {slide.subtext}
           </motion.p>
@@ -148,16 +148,16 @@ export default function HeroSlider() {
           {/* CTA Action Buttons Group */}
           <motion.div
             key={`cta-${slide.id}`}
-            initial={{ opacity: 0, y: 15 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.25 }}
-            className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-4"
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2"
           >
             {/* Primary Button (Cream Solid Container + Dark Text + Arrow) */}
             <Link
               href={slide.primaryCta.href}
               onClick={() => trackEvent("hero_cta_click", { label: slide.primaryCta.label })}
-              className="px-7 py-3.5 bg-[#F7F3EE] text-[#111111] font-semibold text-xs tracking-wider rounded-xs hover:bg-[#B08D57] hover:text-[#FFFFFF] transition-all duration-300 shadow-sm flex items-center justify-center space-x-2 text-center"
+              className="px-6 py-3 bg-[#F7F3EE] text-[#111111] font-semibold text-xs tracking-wider rounded-xs hover:bg-[#B08D57] hover:text-[#FFFFFF] transition-all duration-300 shadow-sm flex items-center justify-center space-x-2 text-center"
             >
               <span>{slide.primaryCta.label}</span>
               <ArrowRight className="w-4 h-4 ml-1" />
@@ -166,19 +166,19 @@ export default function HeroSlider() {
             {/* Secondary Link (Clean Underline) */}
             <Link
               href={slide.secondaryCta.href}
-              className="px-2 py-3.5 text-xs text-[#F7F3EE] hover:text-[#B08D57] font-medium tracking-wide underline underline-offset-8 decoration-1 decoration-[#F7F3EE]/40 hover:decoration-[#B08D57] transition-all text-center sm:text-left"
+              className="px-2 py-3 text-xs text-[#F7F3EE] hover:text-[#B08D57] font-medium tracking-wide underline underline-offset-8 decoration-1 decoration-[#F7F3EE]/40 hover:decoration-[#B08D57] transition-all text-center sm:text-left"
             >
               {slide.secondaryCta.label}
             </Link>
           </motion.div>
         </div>
 
-        {/* Bottom Control Bar (Exact Reference Match: [<] [— — — —] [▶] [>]) */}
-        <div className="flex items-center space-x-3 pt-6">
+        {/* Bottom Control Bar ([<] [— — — —] [▶] [>]) */}
+        <div className="flex items-center space-x-3 pt-4 pb-1">
           {/* Left Arrow Button */}
           <button
             onClick={handlePrev}
-            className="w-9 h-9 border border-[#FFFFFF]/40 hover:border-[#FFFFFF] flex items-center justify-center text-[#FFFFFF] transition-colors rounded-xs"
+            className="w-8 h-8 border border-[#FFFFFF]/40 hover:border-[#FFFFFF] flex items-center justify-center text-[#FFFFFF] transition-colors rounded-xs"
             aria-label="Previous Slide"
           >
             <ChevronLeft className="w-4 h-4" />
@@ -196,8 +196,8 @@ export default function HeroSlider() {
                 <div
                   className={`h-[2px] transition-all duration-500 ${
                     idx === currentSlideIndex
-                      ? "w-10 bg-[#FFFFFF]"
-                      : "w-6 bg-[#FFFFFF]/30 hover:bg-[#FFFFFF]/60"
+                      ? "w-8 bg-[#FFFFFF]"
+                      : "w-5 bg-[#FFFFFF]/30 hover:bg-[#FFFFFF]/60"
                   }`}
                 />
               </button>
@@ -207,7 +207,7 @@ export default function HeroSlider() {
           {/* Play / Pause Toggle Button */}
           <button
             onClick={() => setIsPlaying(!isPlaying)}
-            className="w-9 h-9 border border-[#FFFFFF]/40 hover:border-[#FFFFFF] flex items-center justify-center text-[#FFFFFF] transition-colors rounded-xs"
+            className="w-8 h-8 border border-[#FFFFFF]/40 hover:border-[#FFFFFF] flex items-center justify-center text-[#FFFFFF] transition-colors rounded-xs"
             aria-label={isPlaying ? "Pause autoplay" : "Play autoplay"}
           >
             {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 ml-0.5" />}
@@ -216,7 +216,7 @@ export default function HeroSlider() {
           {/* Right Arrow Button */}
           <button
             onClick={handleNext}
-            className="w-9 h-9 border border-[#FFFFFF]/40 hover:border-[#FFFFFF] flex items-center justify-center text-[#FFFFFF] transition-colors rounded-xs"
+            className="w-8 h-8 border border-[#FFFFFF]/40 hover:border-[#FFFFFF] flex items-center justify-center text-[#FFFFFF] transition-colors rounded-xs"
             aria-label="Next Slide"
           >
             <ChevronRight className="w-4 h-4" />
